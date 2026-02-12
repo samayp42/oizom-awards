@@ -85,18 +85,9 @@ function setupPasswordListeners() {
 
   async function attemptLogin() {
     const password = input.value;
-    const encoder = new TextEncoder();
-    const data = encoder.encode(password);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-    console.log('Computed hash:', hashHex);
-
-    // Hash of 'awards4932'
-    const targetHash = 'e616d63d63309a093755498a44265777492a08899882942478f2e51927c31754';
-
-    if (hashHex === targetHash) {
+    // Simple direct comparison for internal use - NO HASHING
+    if (password === 'awards4932') {
       sessionStorage.setItem('adminAuthenticated', 'true');
       hidePasswordModal();
       revealAdminPanel();
