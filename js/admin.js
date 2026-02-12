@@ -91,6 +91,8 @@ function setupPasswordListeners() {
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
+    console.log('Computed hash:', hashHex);
+
     // Hash of 'awards4932'
     const targetHash = 'e616d63d63309a093755498a44265777492a08899882942478f2e51927c31754';
 
