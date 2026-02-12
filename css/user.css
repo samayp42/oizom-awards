@@ -1,0 +1,711 @@
+/* Oizom Awards Night - User Interface - EXTREME PREMIUM LIGHT + DARK THEME */
+:root {
+  /* --- LIGHT THEME (Default) --- */
+  --bg-primary: #F5F7FA;
+  --bg-secondary: #FFFFFF;
+  --bg-elevated: #FFFFFF;
+  --bg-card: rgba(255, 255, 255, 0.85);
+  /* Glassmorphism base */
+
+  --text-primary: #1A202C;
+  --text-secondary: #4A5568;
+  --text-tertiary: #718096;
+
+  /* Metallic Gold - Refined for Light Mode */
+  --accent-gold: 212, 175, 55;
+  --gold-primary: #C59C34;
+  /* Darker/Bronze for contrast on white */
+  --gold-gradient: linear-gradient(135deg, #FFD700 0%, #D4AF37 50%, #C5a028 100%);
+  --gold-glow: 0 4px 14px rgba(212, 175, 55, 0.4);
+
+  --border: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(0, 0, 0, 0.15);
+
+  --shadow-lg: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+  --glass-blur: blur(12px);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+
+  /* Animations */
+  --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.2s var(--ease-smooth);
+  --transition-medium: 0.4s var(--ease-smooth);
+
+  /* Status Colors */
+  --success: #38A169;
+  --error: #E53E3E;
+
+  /* Theme Toggle Icon Colors */
+  --icon-sun: #F6E05E;
+  --icon-moon: #718096;
+}
+
+[data-theme="dark"] {
+  /* --- DARK THEME (Overides) --- */
+  --bg-primary: #0F1115;
+  --bg-secondary: #171923;
+  --bg-elevated: #2D3748;
+  --bg-card: rgba(23, 25, 35, 0.75);
+
+  --text-primary: #F7FAFC;
+  --text-secondary: #A0AEC0;
+  --text-tertiary: #718096;
+
+  /* Metallic Gold - Glowing for Dark Mode */
+  --gold-primary: #FFD700;
+  --gold-glow: 0 0 20px rgba(255, 215, 0, 0.3);
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.16);
+
+  --shadow-lg: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --icon-moon: #F6E05E;
+  /* Moon glows in dark mode */
+}
+
+/* --------------------------------------------------------------------------
+   GLOBAL RESET & BASICS
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: background-color 0.5s ease, color 0.5s ease;
+  /* Smooth theme transition */
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   BACKGROUND AMBIENCE
+   -------------------------------------------------------------------------- */
+.background-effects {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.gradient-sphere {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.6;
+  transition: opacity 0.5s ease;
+  animation: float 20s infinite ease-in-out;
+}
+
+[data-theme="dark"] .gradient-sphere {
+  opacity: 0.3;
+  /* Less intense in dark mode */
+}
+
+/* Sphere colors change based on theme */
+.sphere-1 {
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(var(--accent-gold), 0.2), transparent 70%);
+  top: -10vh;
+  left: -10vw;
+  animation-delay: -2s;
+}
+
+.sphere-2 {
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(66, 153, 225, 0.15), transparent 70%);
+  bottom: -20vh;
+  right: -10vw;
+  animation-delay: -7s;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  opacity: 0.4;
+}
+
+/* --------------------------------------------------------------------------
+   HEADER
+   -------------------------------------------------------------------------- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 1rem;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(var(--bg-primary), 0.7);
+  /* Translucent based on theme bg */
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.5s ease, background 0.5s ease;
+}
+
+.header-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo Area */
+.trophy-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--gold-primary);
+  margin-right: 12px;
+  filter: drop-shadow(0 0 5px rgba(var(--accent-gold), 0.3));
+  transition: transform 0.3s var(--ease-elastic);
+}
+
+.trophy-icon:hover {
+  transform: rotate(15deg) scale(1.1);
+}
+
+h1 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: var(--gold-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  width: max-content;
+  /* Ensure gradient works */
+}
+
+/* Controls (Progress + Theme) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.progress-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progress-ring {
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.progress-ring svg {
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+
+.progress-ring-circle-bg {
+  stroke: var(--border);
+  stroke-width: 3;
+  fill: none;
+  transition: stroke 0.5s ease;
+}
+
+.progress-ring-circle {
+  stroke: var(--gold-primary);
+  stroke-width: 3;
+  fill: none;
+  stroke-dasharray: 88;
+  stroke-dashoffset: 88;
+  transition: stroke-dashoffset 0.8s var(--ease-elastic), stroke 0.5s ease;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 2px var(--gold-primary));
+}
+
+.progress-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: all 0.3s var(--ease-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-elevated);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--border-hover);
+}
+
+.sun-icon,
+.moon-icon {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  transition: all 0.5s var(--ease-elastic);
+}
+
+/* Logic for swap animation */
+.sun-icon {
+  transform: scale(1) rotate(0);
+  opacity: 1;
+}
+
+.moon-icon {
+  transform: scale(0) rotate(-90deg);
+  opacity: 0;
+}
+
+[data-theme="dark"] .sun-icon {
+  transform: scale(0) rotate(90deg);
+  opacity: 0;
+}
+
+[data-theme="dark"] .moon-icon {
+  transform: scale(1) rotate(0);
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   MAIN LAYOUT
+   -------------------------------------------------------------------------- */
+#main-content {
+  flex: 1;
+  padding: 2rem 1rem;
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  perspective: 1000px;
+  /* For 3D card flips effects */
+}
+
+/* --------------------------------------------------------------------------
+   CARDS & CONTAINERS
+   -------------------------------------------------------------------------- */
+.category-card,
+.waiting-state,
+.confirmation-message,
+.already-voted {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--shadow-lg);
+  border-radius: 24px;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s var(--ease-smooth), background-color 0.5s ease;
+  animation: cardEntry 0.6s var(--ease-elastic) forwards;
+}
+
+@keyframes cardEntry {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.category-card:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.15);
+  /* deeper shadow on hover */
+}
+
+/* Badge */
+.category-number-badge {
+  display: inline-flex;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-primary);
+  background: rgba(var(--accent-gold), 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(var(--accent-gold), 0.2);
+  box-shadow: 0 2px 10px rgba(var(--accent-gold), 0.1);
+}
+
+/* Title */
+.category-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 2.5rem;
+  background: linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Gradient text */
+}
+
+/* --------------------------------------------------------------------------
+   NOMINEE BUTTONS
+   -------------------------------------------------------------------------- */
+.nominee-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.nominee-button {
+  position: relative;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-smooth);
+  width: 100%;
+  text-align: left;
+  outline: none;
+  box-shadow: var(--shadow-card);
+}
+
+.nominee-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: var(--gold-gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.nominee-button:hover {
+  transform: translateX(4px) scale(1.005);
+  border-color: var(--border-hover);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.nominee-button:active {
+  transform: scale(0.98);
+}
+
+/* Selected State */
+.nominee-button.selected {
+  border-color: var(--gold-primary);
+  background: rgba(var(--accent-gold), 0.05);
+  /* Tint */
+}
+
+/* The actual letter circle (A, B, C) */
+.option-label {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-tertiary);
+  transition: all 0.4s var(--ease-elastic);
+  z-index: 1;
+  box-shadow: var(--shadow-inner);
+}
+
+.nominee-button.selected .option-label {
+  background: var(--gold-primary);
+  color: #fff;
+  border-color: transparent;
+  transform: rotate(-10deg) scale(1.1);
+  box-shadow: var(--gold-glow);
+}
+
+.nominee-name {
+  flex: 1;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.nominee-arrow {
+  color: var(--text-tertiary);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s var(--ease-smooth);
+  z-index: 1;
+}
+
+.nominee-button:hover .nominee-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Checkmark */
+.selected-check {
+  color: var(--gold-primary);
+  font-size: 1.5rem;
+  line-height: 1;
+  opacity: 0;
+  transform: scale(0) rotate(-45deg);
+  transition: all 0.4s var(--ease-elastic);
+  position: absolute;
+  right: 1.5rem;
+  z-index: 2;
+}
+
+.nominee-button.selected .selected-check {
+  opacity: 1;
+  transform: scale(1) rotate(0);
+}
+
+.nominee-button.selected .nominee-arrow {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   SUBMIT BUTTON (Extreme Engineering here)
+   -------------------------------------------------------------------------- */
+.submit-section {
+  animation: slideUpFade 0.5s var(--ease-elastic) forwards;
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.submit-vote-btn {
+  background: var(--gold-gradient);
+  color: #FFFFFF;
+  /* High contrast */
+  border: none;
+  border-radius: 100px;
+  padding: 1.25rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.4s var(--ease-elastic);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+  position: relative;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Shiny sweep effect */
+.submit-vote-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: skewX(-20deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+
+  0%,
+  80% {
+    left: -100%;
+  }
+
+  100% {
+    left: 200%;
+  }
+}
+
+.submit-vote-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6);
+}
+
+.submit-vote-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+}
+
+.submit-vote-btn:disabled {
+  filter: grayscale(1);
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submit-hint {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   WAITING & CONFIRMATION STATES
+   -------------------------------------------------------------------------- */
+.waiting-state,
+.confirmation-message,
+.already-voted {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.loader {
+  width: 60px;
+  height: 60px;
+  border: 4px solid var(--border);
+  border-top-color: var(--gold-primary);
+  border-radius: 50%;
+  margin-bottom: 2rem;
+  animation: spin 1s linear infinite;
+}
+
+.success-icon,
+.voted-icon {
+  font-size: 3rem;
+  color: var(--gold-primary);
+  width: 80px;
+  height: 80px;
+  background: rgba(var(--accent-gold), 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 0 0 rgba(var(--accent-gold), 0.7);
+  animation: pulse-gold 2s infinite;
+}
+
+.voted-icon {
+  font-weight: 900;
+}
+
+@keyframes pulse-gold {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 20px rgba(212, 175, 55, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE OPTIMIZATIONS
+   -------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .category-title {
+    font-size: 1.75rem;
+  }
+
+  .category-card {
+    padding: 1.5rem;
+  }
+
+  .nominee-button {
+    padding: 1rem;
+  }
+
+  /* Mobile specific adjustments */
+  header .progress-text {
+    display: none;
+  }
+
+  /* Hide text, keep only ring */
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000">
+  <title>Oizom Awards Night</title>
+  <link rel="stylesheet" href="css/user.css">
+</head>
+
+<body>
+  <div id="app">
+    <div class="background-effects">
+      <div class="gradient-sphere sphere-1"></div>
+      <div class="gradient-sphere sphere-2"></div>
+      <div class="grid-overlay"></div>
+    </div>
+    <header>
+      <div class="header-content">
+        <svg class="trophy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+          <path d="M4 22h16"></path>
+          <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+          <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+        </svg>
+        <h1>Oizom Awards Night</h1>
+        <div class="progress-indicator">
+          <div class="progress-ring">
+            <svg width="32" height="32">
+              <circle cx="16" cy="16" r="14" class="progress-ring-circle-bg"></circle>
+              <circle cx="16" cy="16" r="14" class="progress-ring-circle" id="progress-circle"></circle>
+            </svg>
+            <span id="progress-text" class="progress-text">0/27</span>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+            <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <div id="waiting-state" class="waiting-state" style="display: none;">
+        <div class="loader-container">
+          <div class="loader"></div>
+        </div>
+        <h2>Waiting for next category</h2>
+        <p>The next award will appear when it's unlocked</p>
+      </div>
+
+      <div id="category-container" class="category-container" style="display: none;">
+        <div class="category-card">
+          <div class="category-number-badge" id="category-number">Category #1</div>
+          <h2 id="category-title" class="category-title">Best Performance</h2>
+
+          <div id="nominee-buttons" class="nominee-buttons">
+            <button class="nominee-button" data-option="A">
+              <span class="option-label">A</span>
+              <span class="nominee-name" id="nominee-a">Nominee A</span>
+              <span class="nominee-arrow">→</span>
+              <span class="selected-check">✓</span>
+            </button>
+            <button class="nominee-button" data-option="B">
+              <span class="option-label">B</span>
+              <span class="nominee-name" id="nominee-b">Nominee B</span>
+              <span class="nominee-arrow">→</span>
+              <span class="selected-check">✓</span>
+            </button>
+            <button class="nominee-button" data-option="C">
+              <span class="option-label">C</span>
+              <span class="nominee-name" id="nominee-c">Nominee C</span>
+              <span class="nominee-arrow">→</span>
+              <span class="selected-check">✓</span>
+            </button>
+            <button class="nominee-button" data-option="D">
+              <span class="option-label">D</span>
+              <span class="nominee-name" id="nominee-d">Nominee D</span>
+              <span class="nominee-arrow">→</span>
+              <span class="selected-check">✓</span>
+            </button>
+          </div>
+
+          <div id="submit-section" class="submit-section" style="display: none;">
+            <button id="submit-vote-btn" class="submit-vote-btn">
+              <span>Submit Vote</span>
+            </button>
+            <p class="submit-hint">You can change your selection before submitting</p>
+          </div>
+
+          <div id="already-voted" class="already-voted" style="display: none;">
+            <div class="voted-icon">✓</div>
+            <p>You've already voted for this category</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="confirmation-message" class="confirmation-message" style="display: none;">
+        <div class="confirmation-content">
+          <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <h2>Vote Recorded</h2>
+          <p>Thank you for your vote</p>
+        </div>
+      </div>
+
+      <div id="error-message" class="error-message" style="display: none;">
+        <p id="error-text">An error occurred</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- FingerprintJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@4/dist/fp.min.js"></script>
+
+  <!-- Application scripts -->
+  <script type="module" src="/js/user.js"></script>
+</body>
+
+</html>
